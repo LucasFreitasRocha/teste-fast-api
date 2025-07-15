@@ -1,5 +1,4 @@
 from typing import List, Optional
-from graphql.pyutils import description
 import strawberry
 
 from src.config.init_config import app_service
@@ -21,7 +20,7 @@ class AppType:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    def createUser(self, input: CreateApp) -> AppType:
+    def createApp(self, input: CreateApp) -> AppType:
         app = app_service.create_app(input.name, input.description)
         if app.id is None:
             raise ValueError("App ID cannot be None")

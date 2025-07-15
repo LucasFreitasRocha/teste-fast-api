@@ -1,7 +1,7 @@
 
 
-from data.repository.app_repository import AppRepository
-from service.domain.app_domain import AppDomain
+from src.data.repository.app_repository import AppRepository
+from src.service.domain.app_domain import AppDomain
 
 
 class AppService:

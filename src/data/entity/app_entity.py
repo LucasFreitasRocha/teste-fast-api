@@ -1,9 +1,10 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional
 
-from service.domain.app_domain import AppDomain
+from src.service.domain.app_domain import AppDomain
 
-class AppEntity(SQLModel, table=True, table_name="apps"):
+class AppEntity(SQLModel, table=True):
+    __tablename__ = "apps"
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str = Field(max_length=100)
     description: str = Field(max_length=100)
