@@ -2,7 +2,7 @@
 
 from sqlmodel import Session
 from src.data.entity.company_entity import CompanyEntity
-from src.service.domain.company_domain import CompanyDomain
+from src.service.domain.company.company_domain import CompanyDomain
 
 
 class CompanyRepository:

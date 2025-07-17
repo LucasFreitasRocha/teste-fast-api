@@ -3,7 +3,7 @@ from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
 
 from src.data.entity.app_entity import AppEntity
-from src.service.domain.company_domain import CompanyDomain
+from src.service.domain.company.company_domain import CompanyDomain
 
 
 class CompanyEntity(SQLModel, table=True):

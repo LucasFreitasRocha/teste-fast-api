@@ -31,4 +31,4 @@ class AppDomain:
 
 
 if TYPE_CHECKING:
-    from src.service.domain.company_domain import CompanyDomain
+    from src.service.domain.company.company_domain import CompanyDomain

@@ -1,7 +1,7 @@
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, TYPE_CHECKING
 
-from src.service.domain.app_domain import AppDomain
+from src.service.domain.app.app_domain import AppDomain
 
 if TYPE_CHECKING:
     from src.data.entity.company_entity import CompanyEntity

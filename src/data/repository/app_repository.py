@@ -1,7 +1,6 @@
 from sqlmodel import Session
-from src.service.domain.app_domain import AppDomain
 from src.data.entity.app_entity import AppEntity
-from src.data.entity.company_entity import CompanyEntity
+from src.service.domain.app.app_domain import AppDomain
 
 
 class AppRepository:
