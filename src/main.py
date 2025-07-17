@@ -1,21 +1,9 @@
-import uvicorn
-import argparse
 from fastapi import FastAPI
-from strawberry.fastapi import GraphQLRouter
-from src.graphql.app_resolver import schema
 from src.config.init_config import init_config
+from src.controller.base_controller import api_router
+from src.config.inject_manager import register_manager_injector
 
-
-
-app = FastAPI()
-
-# Initialize database and create tables
+register_manager_injector()
+app = FastAPI(title="API", description="API for the application")
+app.include_router(api_router)
 init_config()
-
-# Add GraphQL route
-graphql_app = GraphQLRouter(schema)
-app.include_router(graphql_app, prefix="/graphql")
-
-
-
-
