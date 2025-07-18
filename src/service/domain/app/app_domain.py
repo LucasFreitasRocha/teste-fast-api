@@ -1,23 +1,12 @@
 from typing import Optional, TYPE_CHECKING
+from pydantic import BaseModel
 
 
-class AppDomain:
+class AppDomain(BaseModel):
     id: Optional[int]
     name: str
     description: str
     company: Optional["CompanyDomain"] = None
-
-    def __init__(
-        self,
-        name: str,
-        description: str,
-        company: Optional["CompanyDomain"] = None,
-        id: Optional[int] = None,
-    ):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.company = company
 
     @classmethod
     def build(

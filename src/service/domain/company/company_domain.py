@@ -1,8 +1,10 @@
 from datetime import datetime
 from typing import Optional, List, TYPE_CHECKING
 
+from pydantic import BaseModel
 
-class CompanyDomain:
+
+class CompanyDomain(BaseModel):
     id: Optional[int]
     name: str
     description: str
@@ -11,23 +13,6 @@ class CompanyDomain:
     updated_at: datetime
     apps: List["AppDomain"]
 
-    def __init__(
-        self,
-        name: str,
-        description: str,
-        document: str,
-        created_at: datetime,
-        updated_at: datetime,
-        apps: List["AppDomain"],
-        id: Optional[int] = None,
-    ):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.document = document
-        self.created_at = created_at
-        self.updated_at = updated_at
-        self.apps = apps
 
     @classmethod
     def build(
@@ -50,4 +35,5 @@ class CompanyDomain:
 
 
 if TYPE_CHECKING:
-    from src.service.domain.app_domain import AppDomain
+    from src.service.domain.app.app_domain import AppDomain
+
