@@ -1,3 +1,4 @@
+from uuid import UUID
 import inject
 from fastapi import APIRouter, status
 from src.service.company_service import CompanyService
@@ -19,3 +20,11 @@ def create_company(company: CompanyRequest):
             apps=[],
         )
     )
+    
+@router.get("/{company_id}", response_model=CompanyDomain, response_model_exclude_none=True)
+def get_company(company_id: UUID):
+    company_service = inject.instance(CompanyService)
+    return company_service.get_company_by_id(company_id)
+
+
+
