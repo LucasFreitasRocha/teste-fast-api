@@ -1,6 +1,8 @@
 from datetime import datetime
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
+from uuid6 import uuid7
+from uuid import UUID
 
 from src.data.entity.app_entity import AppEntity
 from src.service.domain.company.company_domain import CompanyDomain
@@ -8,7 +10,7 @@ from src.service.domain.company.company_domain import CompanyDomain
 
 class CompanyEntity(SQLModel, table=True):
     __tablename__: str = "companies"
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: Optional[UUID] = Field(default_factory=uuid7, primary_key=True)
     name: str = Field(max_length=100)
     description: str = Field(max_length=100)
     created_at: datetime = Field(default=datetime.now())
@@ -22,12 +24,12 @@ class CompanyEntity(SQLModel, table=True):
         description: str,
         document: str,
         apps: List["AppEntity"],
-        id: Optional[int] = None,
+        id: Optional[UUID] = None,
     ):
         self.name = name
         self.description = description
         self.document = document
-        self.id = id
+        self.id = id if id is not None else uuid7()
         self.apps = apps
         date = datetime.now()
         self.created_at = date
@@ -35,7 +37,7 @@ class CompanyEntity(SQLModel, table=True):
 
     def to_domain(self, include_apps=True):
         return CompanyDomain(
-            id=self.id if self.id else 0,
+            id=self.id if self.id else None,
             name=self.name,
             description=self.description,
             document=self.document,

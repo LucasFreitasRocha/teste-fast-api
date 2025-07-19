@@ -1,5 +1,7 @@
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, TYPE_CHECKING
+from uuid6 import uuid7
+from uuid import UUID
 
 from src.service.domain.app.app_domain import AppDomain
 
@@ -9,18 +11,19 @@ if TYPE_CHECKING:
 
 class AppEntity(SQLModel, table=True):
     __tablename__: str = "apps"
-    id: Optional[int] = Field(default=None, primary_key=True)
+
+    id: Optional[UUID] = Field(default_factory=uuid7, primary_key=True)
     name: str = Field(max_length=100)
     description: str = Field(max_length=100)
-    company_id: int = Field(foreign_key="companies.id")
+    company_id: UUID = Field(foreign_key="companies.id")
     company: "CompanyEntity" = Relationship(back_populates="apps")
 
     def __init__(
-        self, name: str, description: str, company_id: int, id: Optional[int] = None
+        self, name: str, description: str, company_id: UUID, id: Optional[UUID] = None
     ):
         self.name = name
         self.description = description
-        self.id = id
+        self.id = id if id is not None else uuid7()
         self.company_id = company_id
 
     def to_domain(self, include_company=True):

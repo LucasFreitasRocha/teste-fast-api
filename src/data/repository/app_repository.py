@@ -3,6 +3,7 @@ from src.data.entity.app_entity import AppEntity
 from src.service.domain.app.app_domain import AppDomain
 
 
+
 class AppRepository:
     def __init__(self, engine):
         self.engine = engine  # engine, não uma conexão direta
@@ -20,5 +21,8 @@ class AppRepository:
             session.commit()
             session.refresh(app_entity)
             return AppDomain.build(
-                app_entity.name, app_entity.description, app_entity.company.to_domain(), app_entity.id
+                app_entity.name,
+                app_entity.description,
+                app_entity.company.to_domain(),
+                app_entity.id,
             )

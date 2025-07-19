@@ -1,9 +1,10 @@
 from typing import Optional, TYPE_CHECKING
 from pydantic import BaseModel
+from uuid import UUID
 
 
 class AppDomain(BaseModel):
-    id: Optional[int]
+    id: Optional[UUID]
     name: str
     description: str
     company: Optional["CompanyDomain"] = None
@@ -14,7 +15,7 @@ class AppDomain(BaseModel):
         name: str,
         description: str,
         company: Optional["CompanyDomain"] = None,
-        id: Optional[int] = None,
+        id: Optional[UUID] = None,
     ):
         return cls(name=name, description=description, company=company, id=id)
 

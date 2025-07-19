@@ -2,6 +2,7 @@ import inject
 from fastapi import HTTPException, status
 from src.data.repository.company_repository import CompanyRepository
 from src.service.domain.company.company_domain import CompanyDomain
+from uuid import UUID
 
 
 class CompanyService:
@@ -14,7 +15,7 @@ class CompanyService:
 
         return self.company_repository.create_company(company)
 
-    def get_company_by_id(self, company_id: int):
+    def get_company_by_id(self, company_id: UUID):
         company = self.company_repository.get_company_by_id(company_id)
         if company is None:
             raise HTTPException(

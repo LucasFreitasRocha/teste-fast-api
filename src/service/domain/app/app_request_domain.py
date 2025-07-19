@@ -1,16 +1,22 @@
 from pydantic import BaseModel, field_validator
+from uuid import UUID
 
 
 class AppRequest(BaseModel):
     name: str
     description: str
-    company_id: int
+    company_id: UUID
 
     @field_validator("company_id")
     @classmethod
     def validate_company_id(cls, v):
-        if v is None or v <= 0:
-            raise ValueError("company_id is required and must be greater than 0")
+        if v is None:
+            raise ValueError("company_id is required")
+        if not isinstance(v, UUID):
+            try:
+                v = UUID(str(v))
+            except Exception:
+                raise ValueError("company_id must be a valid UUID")
         return v
 
     @field_validator("name")

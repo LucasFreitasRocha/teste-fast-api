@@ -1,18 +1,18 @@
 from datetime import datetime
 from typing import Optional, List, TYPE_CHECKING
+from uuid import UUID
 
 from pydantic import BaseModel
 
 
 class CompanyDomain(BaseModel):
-    id: Optional[int]
+    id: Optional[UUID]
     name: str
     description: str
     document: str
     created_at: datetime
     updated_at: datetime
     apps: List["AppDomain"]
-
 
     @classmethod
     def build(
@@ -21,7 +21,7 @@ class CompanyDomain(BaseModel):
         description: str,
         document: str,
         apps: List["AppDomain"],
-        id: Optional[int] = None,
+        id: Optional[UUID] = None,
     ):
         return CompanyDomain(
             id=id,
@@ -36,4 +36,3 @@ class CompanyDomain(BaseModel):
 
 if TYPE_CHECKING:
     from src.service.domain.app.app_domain import AppDomain
-
