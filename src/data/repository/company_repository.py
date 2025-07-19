@@ -1,4 +1,4 @@
-from sqlmodel import Session
+from sqlmodel import Session, delete
 from src.data.entity.company_entity import CompanyEntity
 from src.service.domain.company.company_domain import CompanyDomain
 from uuid import UUID
@@ -25,3 +25,9 @@ class CompanyRepository:
         with Session(self.engine) as session:
             company_entity = session.get(CompanyEntity, company_id)
             return company_entity.to_domain() if company_entity else None
+
+    def delete_company(self, company: CompanyDomain):
+        with Session(self.engine) as session:
+            statement = delete(CompanyEntity).where(CompanyEntity.id == company.id)
+            session.exec(statement)
+            session.commit()

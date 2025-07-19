@@ -23,3 +23,12 @@ class CompanyService:
                 detail="Company not found with this company_id: " + str(company_id),
             )
         return company
+
+    def delete_company(self, company_id: UUID):
+        company = self.get_company_by_id(company_id)
+        if company.apps is not None and len(company.apps) > 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Company has apps, cannot be deleted",
+            )
+        self.company_repository.delete_company(company)
