@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
+from pydantic import UUID7
 from uuid6 import uuid7
-from uuid import UUID
+
 
 from src.data.entity.app_entity import AppEntity
 from src.service.domain.company.company_domain import CompanyDomain
@@ -10,12 +11,12 @@ from src.service.domain.company.company_domain import CompanyDomain
 
 class CompanyEntity(SQLModel, table=True):
     __tablename__: str = "companies"
-    id: Optional[UUID] = Field(default_factory=uuid7, primary_key=True)
+    id: Optional[UUID7] = Field(default_factory=uuid7, primary_key=True)
     name: str = Field(max_length=100)
     description: str = Field(max_length=100)
     created_at: datetime = Field(default=datetime.now())
     updated_at: datetime = Field(default=datetime.now())
-    document: str = Field(max_length=100)
+    document: str = Field(max_length=100, unique=True)
     apps: List["AppEntity"] = Relationship(back_populates="company")
 
     def __init__(
@@ -24,7 +25,7 @@ class CompanyEntity(SQLModel, table=True):
         description: str,
         document: str,
         apps: List["AppEntity"],
-        id: Optional[UUID] = None,
+        id: Optional[UUID7] = None,
     ):
         self.name = name
         self.description = description

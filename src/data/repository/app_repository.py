@@ -1,4 +1,4 @@
-from sqlmodel import Session
+from sqlmodel import Session, delete
 from src.data.entity.app_entity import AppEntity
 from src.service.domain.app.app_domain import AppDomain
 
@@ -26,3 +26,13 @@ class AppRepository:
                 app_entity.company.to_domain(),
                 app_entity.id,
             )
+    def get_app(self, app_id: str):
+        with Session(self.engine) as session:
+            app_entity = session.get(AppEntity, app_id)
+            return app_entity.to_domain() if app_entity else None
+    
+    def delete_app(self, app_id: str):
+        with Session(self.engine) as session:
+            statement = delete(AppEntity).where(AppEntity.id == app_id)
+            session.exec(statement)
+            session.commit()

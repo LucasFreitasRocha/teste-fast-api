@@ -6,8 +6,9 @@ from sqlalchemy.engine import Engine
 
 load_dotenv()
 
+
 class DatabaseConnection:
-    _instance: Optional['DatabaseConnection'] = None
+    _instance: Optional["DatabaseConnection"] = None
 
     def __new__(cls):
         if cls._instance is None:
@@ -15,7 +16,7 @@ class DatabaseConnection:
         return cls._instance
 
     def __init__(self):
-        if not hasattr(self, 'engine'):
+        if not hasattr(self, "engine"):
             self.DB_HOST = os.getenv("DB_HOST", "localhost")
             self.DB_PORT = os.getenv("DB_PORT", "5433")
             self.DB_USER = os.getenv("DB_USER", "root")
@@ -32,7 +33,7 @@ class DatabaseConnection:
                 echo=True,
                 pool_pre_ping=True,
                 pool_size=5,
-                max_overflow=10
+                max_overflow=10,
             )
 
     def create_tables(self):
@@ -40,8 +41,9 @@ class DatabaseConnection:
 
     def get_session(self) -> Session:
         return Session(self.engine)
-        
+
     def get_connection(self) -> Engine:
         return self.engine
 
-db = DatabaseConnection() 
+
+db = DatabaseConnection()
