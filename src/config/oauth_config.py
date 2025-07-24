@@ -1,27 +1,28 @@
+import os
 from typing import Dict
 from authlib.integrations.starlette_client import OAuth
 from starlette.config import Config
 from fastapi import FastAPI
 
-config = Config(".env")
+GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
+GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
+GITHUB_CALLBACK_URL = "http://127.0.0.1:8000/api/auth/github"
+FRONTEND_URL = "http://localhost:3000"
+FRONTEND_CALLBACK_URL = f"{FRONTEND_URL}/auth/callback"
+
+
+print("GITHUB_CLIENT_ID", GITHUB_CLIENT_ID)
+print("GITHUB_CLIENT_SECRET", GITHUB_CLIENT_SECRET)
 
 # Configurações do OAuth
 oauth = OAuth()
 
-# Configuração do Google OAuth
-oauth.register(
-    name="google",
-    client_id=config("GOOGLE_CLIENT_ID", default=None),
-    client_secret=config("GOOGLE_CLIENT_SECRET", default=None),
-    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
-    client_kwargs={"scope": "openid email profile"},
-)
 
 # Configuração do GitHub OAuth
 oauth.register(
     name="github",
-    client_id=config("GITHUB_CLIENT_ID", default=None),
-    client_secret=config("GITHUB_CLIENT_SECRET", default=None),
+    client_id=GITHUB_CLIENT_ID,
+    client_secret=GITHUB_CLIENT_SECRET,
     access_token_url="https://github.com/login/oauth/access_token",
     access_token_params=None,
     authorize_url="https://github.com/login/oauth/authorize",
