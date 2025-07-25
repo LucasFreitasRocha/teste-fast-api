@@ -93,10 +93,9 @@ class AuthService:
                 name=user_info["name"],
                 app_id=app_id,
             )
-            self.user_app_service.create_user_app(user_app_domain)
+            self.user_app_service.create_user_app(user_app_domain, True)
             # Create JWT token with minimal user data
             session_token = self.create_token({"user": user_info})
-
             redirect_url = f"{FRONTEND_CALLBACK_URL}?token={session_token}"
             print(f"=== REDIRECTING TO FRONTEND ===")
             print(f"Redirect URL: {redirect_url}")

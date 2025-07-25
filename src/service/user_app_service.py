@@ -18,19 +18,18 @@ class UserAppService:
         self.user_service = user_service
         self.app_service = app_service
 
-    def create_user_app(self, user_app: UserAppRequest):
-        user = self.user_service.get_user_by_email(user_app.email)
-        if user is not None:
-            self.searchInApp(user.user_id, user_app.app_id)
-        else:
-          user = self.user_service.create_user(UserDomain.build(name=user_app.name, email=user_app.email, phone=user_app.phone))
-        app = self.app_service.get_app(user_app.app_id)
-        return self.repository.create_user_app(
-            UserAppDomain.build(user, app, user_app.password)
-        )
+    def create_user_app(self, user_app_request: UserAppRequest, oauth: bool = False):
+        user = self.user_service.get_user_by_email(user_app_request.email)
+        if user is None:
+            app = self.app_service.get_app(user_app_request.app_id)
+            return self.repository.create_user_app(
+                UserAppDomain.build(user, app, user_app_request.password)
+            )
+        if not oauth:
+            self.searchInApp(user.id, user_app_request.app_id)
 
     def searchInApp(self, user_id: str, app_id: str):
-        user_app = self.repository.get_user_app(user_id, app_id)
+        user_app = self.repository.get_user_app_by_user_id_and_app_id(user_id, app_id)
         if user_app is not None:
             raise HTTPException(
                 status_code=400, detail="User already exists in this app"
