@@ -1,12 +1,13 @@
 from pydantic import BaseModel, field_validator, EmailStr
+from typing import Optional
 
 
 class UserAppRequest(BaseModel):
     email: EmailStr
     name: str
-    phone: str
+    phone: Optional[str] = None
     app_id: str
-    password: str
+    password: Optional[str] = None
 
     @field_validator("app_id")
     @classmethod
@@ -18,8 +19,8 @@ class UserAppRequest(BaseModel):
     @field_validator("password")
     @classmethod
     def validate_password(cls, v):
-        if not v:
-            raise ValueError("Password is required")
+        if v is None or v == "":
+            return v  # Allow password to be optional
         if len(v) < 8:
             raise ValueError("Password must be at least 8 characters long")
         if not any(c.isupper() for c in v):

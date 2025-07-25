@@ -3,6 +3,7 @@ from sqlmodel import SQLModel, Field
 from uuid6 import uuid7
 from datetime import datetime
 from src.service.domain.user.user_domain import UserDomain
+from typing import Optional
 
 
 class UserEntity(SQLModel, table=True):
@@ -10,7 +11,7 @@ class UserEntity(SQLModel, table=True):
     id: UUID7 = Field(default_factory=uuid7, primary_key=True)
     name: str = Field(max_length=100)
     email: str = Field(max_length=100, unique=True)
-    phone: str = Field(max_length=20)
+    phone: Optional[str] = Field(default=None, max_length=20, nullable=True)
     created_at: datetime = Field(default=datetime.now())
     updated_at: datetime = Field(default=datetime.now())
 

@@ -3,6 +3,7 @@ from pydantic import UUID7
 from uuid6 import uuid7
 from datetime import datetime
 from src.service.domain.user_app.user_app_domain import UserAppDomain
+from typing import Optional
 
 
 class UserAppEntity(SQLModel, table=True):
@@ -14,7 +15,7 @@ class UserAppEntity(SQLModel, table=True):
     app_id: UUID7 = Field(foreign_key="apps.id")
     user: "UserEntity" = Relationship()
     app: "AppEntity" = Relationship()
-    password: str = Field(max_length=100)
+    password: Optional[str] = Field(default=None, max_length=100, nullable=True)
     created_at: datetime = Field(default=datetime.now())
     updated_at: datetime = Field(default=datetime.now())
 

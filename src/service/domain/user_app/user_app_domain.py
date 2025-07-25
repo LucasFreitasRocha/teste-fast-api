@@ -7,8 +7,8 @@ class UserAppDomain(BaseModel):
     id: Optional[UUID7]
     user: UserDomain
     app: AppDomain
-    password: str
+    password: Optional[str] = None
 
     @classmethod
-    def build(cls, user: UserDomain, app: AppDomain, password: str, id: Optional[UUID7] = None):
+    def build(cls, user: UserDomain, app: AppDomain, password: Optional[str] = None, id: Optional[UUID7] = None):
         return cls(id=id, user=user, app=app, password=password)
